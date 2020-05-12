@@ -18,8 +18,11 @@ public class QuestionsController {
     }
 
     @GetMapping("/questions")
-    List<Question> questions(){
+    Iterable<Question> questions(){
         return repository.findAll();
     }
 
+    QuestionsController(QuestionsRepository repository){
+        this.repository = repository;
+    }
 }
