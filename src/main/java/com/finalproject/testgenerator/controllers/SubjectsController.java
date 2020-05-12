@@ -28,6 +28,16 @@ public class SubjectsController {
         return new ResponseEntity<>(questions, new HttpHeaders(), HttpStatus.OK);
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Subject> getQuestion(@PathVariable int id){
+        Subject question = service.getSubjectById(id);
+        if (question == null){
+            return new ResponseEntity<>(question, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(question, new HttpHeaders(), HttpStatus.OK);
+    }
+
     @ApiOperation(value = "Add a subject")
     @PostMapping
     public ResponseEntity<Subject> createSubject(@RequestBody Subject subject){

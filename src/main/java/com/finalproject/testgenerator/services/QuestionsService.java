@@ -29,4 +29,28 @@ public class QuestionsService {
         return question;
     }
 
+
+    public Question updateById(int id) {
+        if (repository.findById(id).isPresent()) {
+            return repository.findById(id).get();
+        }
+        return null;
+    }
+
+    public Question deleteById(int id) {
+        if (repository.findById(id).isPresent()) {
+            Question question = repository.findById(id).get();
+            repository.deleteById(id);
+            return question;
+        }
+        return null;
+    }
+
+    public Question getQuestionById(int id) {
+        if (repository.findById(id).isPresent()){
+            return repository.findById(id).get();
+        }
+        return null;
+    }
+
 }
