@@ -19,6 +19,6 @@ public class TestgeneratorApplication {
 		return args -> {
 			repository.save(new Question("ce faci?"));
 			repository.save(new Question("tu?"));
-		}
+		};
 	}
 }
