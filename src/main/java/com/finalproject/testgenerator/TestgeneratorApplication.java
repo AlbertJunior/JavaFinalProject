@@ -18,7 +18,7 @@ public class TestgeneratorApplication {
 	ApplicationRunner applicationRunner(QuestionsRepository repository){
 		return args -> {
 			repository.save(new Question("ce faci?"));
-			repository.save(new Question("tu?"))
+			repository.save(new Question("tu?"));
 		}
 	}
 }
