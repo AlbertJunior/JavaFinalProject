@@ -14,11 +14,11 @@ public class TestgeneratorApplication {
 		SpringApplication.run(TestgeneratorApplication.class, args);
 	}
 
-//	@Bean
-//	ApplicationRunner applicationRunner(QuestionsRepository repository){
-//		return args -> {
-//			repository.save(new Question("ce faci?"));
-//			repository.save(new Question("tu?"));
-//		};
-//	}
+	@Bean
+	ApplicationRunner applicationRunner(QuestionsRepository repository){
+		return args -> {
+			repository.save(new Question("ce faci?"));
+			repository.save(new Question("tu?"));
+		};
+	}
 }
