@@ -1,21 +1,23 @@
 package com.finalproject.testgenerator.models;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Question {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
     private String text;
+
+    @OneToOne
+    private Subject subject;
+
+    public Question(String text, Subject subject) {
+        this.text = text;
+        this.subject = subject;
+    }
 
     public Question(String text) {
         this.text = text;
@@ -37,5 +39,9 @@ public class Question {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Subject getSubject (){
+        return this.subject;
     }
 }

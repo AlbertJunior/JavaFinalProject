@@ -24,8 +24,7 @@ public class QuestionsService {
     }
 
     public Question createQuestion (Question question){
-        question.setId((long) 5);
-        question.setText("Intrebare noua??");
+        question.setId(repository.count()+1);
         question = repository.save(question);
         return question;
     }
