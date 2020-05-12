@@ -1,0 +1,13 @@
+package com.finalproject.testgenerator.controllers;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class QuestionsController {
+
+    @GetMapping("/")
+    String hello(){
+        return "Hello wordl!";
+    }
+}
