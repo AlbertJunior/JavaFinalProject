@@ -2,27 +2,36 @@ package com.finalproject.testgenerator.controllers;
 
 import com.finalproject.testgenerator.models.Question;
 import com.finalproject.testgenerator.repositories.QuestionsRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.finalproject.testgenerator.services.QuestionsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("api/v1/questions")
 public class QuestionsController {
 
-    private QuestionsRepository repository;
+    @Autowired
+    private QuestionsService service;
 
-    @GetMapping("/")
+    @GetMapping("/hello")
     String hello(){
         return "Hello wordl!";
     }
 
-    @GetMapping("/questions")
-    Iterable<Question> questions(){
-        return repository.findAll();
+    @GetMapping
+    public ResponseEntity<List<Question>> getQuestions(){
+        List<Question> questions = service.getAllQuestions();
+        return new ResponseEntity<>(questions, new HttpHeaders(), HttpStatus.OK);
     }
 
-    QuestionsController(QuestionsRepository repository){
-        this.repository = repository;
+    @PostMapping
+    public ResponseEntity<Question> createQuestion(@RequestBody Question question){
+        Question question1 = service.createQuestion(question);
+        return new ResponseEntity<>(question1, new HttpHeaders(), HttpStatus.CREATED);
     }
 }
