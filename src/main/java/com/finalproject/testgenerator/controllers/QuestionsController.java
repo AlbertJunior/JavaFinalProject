@@ -19,7 +19,7 @@ public class QuestionsController {
 
     @GetMapping("/hello")
     String hello(){
-        return "Te iubesc, Alex!";
+        return "Hello, World!";
     }
 
     @GetMapping
