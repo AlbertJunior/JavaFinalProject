@@ -70,6 +70,12 @@ public class Question {
     public Question(String text) {
         this.text = text;
     }
+    public Question(String text, int timeInSeconds, int difficulty, Subject subject) {
+        this.text = text;
+        this.difficulty = difficulty;
+        this.timeInSeconds = timeInSeconds;
+        this.subject = subject;
+    }
     public Question() {
     }
 

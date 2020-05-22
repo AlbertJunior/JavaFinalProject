@@ -23,13 +23,14 @@ public class TestgeneratorApplication {
 		return args -> {
 			answersRepository.save(new Answer("raspuns1", 1));
 			answersRepository.save(new Answer("raspuns2", 0));
-			subjectsRepository.save(new Subject("matematica"));
+			Subject subject = new Subject("matematica");
+			subjectsRepository.save(subject);
 
-			repository.save(new Question("tu?"));
-			repository.save(new Question("da???"));
-			repository.save(new Question("ce faci?"));
-			repository.save(new Question("tu?"));
-			repository.save(new Question("da???"));
+			repository.save(new Question("tu?", 3, 5, subject));
+			repository.save(new Question("da???", 3, 5, subject));
+			repository.save(new Question("ce faci?", 2, 4, subject));
+			repository.save(new Question("tu?", 2, 4, subject));
+			repository.save(new Question("da???", 5, 10, subject));
 
 		};
 	}
