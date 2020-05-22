@@ -29,12 +29,10 @@ public class AnswersService {
         return answer;
     }
 
-    public Answer updateById(int id) {
-        if (repository.findById(id).isPresent()) {
-            return repository.findById(id).get();
-        }
-        return null;
+    public void updateById(Answer answer) {
+        repository.save(answer);
     }
+
 
     public Answer deleteById(int id) {
         if (repository.findById(id).isPresent()) {
@@ -51,4 +49,5 @@ public class AnswersService {
         }
         return null;
     }
+
 }

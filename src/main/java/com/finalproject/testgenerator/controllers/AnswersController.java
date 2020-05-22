@@ -50,21 +50,22 @@ public class AnswersController {
     @ApiOperation(value = "Update an answer")
     @PutMapping("/{id}")
     public ResponseEntity<String> updateAnswer(@PathVariable("id") int id,
-                                               @RequestParam(required = false) String text,
-                                               @RequestParam(required = false, defaultValue = "-1") int verdict) {
-        Answer answer =  service.updateById(id);
+                                               @RequestBody Answer answer) {
+        Answer answer1 =  service.getAnswerById(id);
 
-        if (answer == null) {
+        if (answer1 == null) {
             return new ResponseEntity<>("Answer not found", HttpStatus.NOT_FOUND);
         }
-        if (text != null) {
-            answer.setText(text);
+        if (answer.getText() != null){
+            answer1.setText(answer.getText());
         }
-        if (verdict != -1) {
-            answer.setVerdict(verdict);
+        if (answer.getVerdict() != -1){
+            answer1.setVerdict(answer.getVerdict());
         }
+        service.updateById(answer1);
         return new ResponseEntity<>("Answer updated", HttpStatus.NO_CONTENT);
     }
+
 
 
     @ApiOperation(value = "Delete an answer bu id",

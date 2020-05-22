@@ -3,10 +3,7 @@ package com.finalproject.testgenerator.models;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @ApiModel(description = "All details about the Subject ")
@@ -16,8 +13,10 @@ public class Subject {
     @ApiModelProperty(notes = "The id of a Subject - unique")
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
+
     @ApiModelProperty(notes = "The name of a subject")
+    @Column
     private String name;
 
     public Subject(){
@@ -27,11 +26,11 @@ public class Subject {
         this.name = name;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

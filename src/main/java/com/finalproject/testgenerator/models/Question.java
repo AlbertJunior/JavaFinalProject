@@ -1,24 +1,37 @@
 package com.finalproject.testgenerator.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
+@ApiModel(description = "All details about the Question")
 @Entity
 public class Question {
+    @ApiModelProperty(notes = "The id of an Answer - unique")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
 
+    @ApiModelProperty(notes = "The content of a question")
     @Column
     private String text;
 
+    @ApiModelProperty(notes = "The subject it belongs to")
     @OneToOne
     private Subject subject;
 
+    @ApiModelProperty(notes = "All the answers for this question")
     @OneToMany
     private List<Answer> answers;
 
-    private int difficulty;
+    @ApiModelProperty(notes = "The difficulty of a question from 1 to 100, -1 is for unset")
+    @Column
+    private int difficulty = -1;
+
+    @ApiModelProperty(notes = "The time to answer this question")
+    @Column
     private int timeInSeconds;
 
     public void setSubject(Subject subject) {
@@ -64,11 +77,11 @@ public class Question {
         return text;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

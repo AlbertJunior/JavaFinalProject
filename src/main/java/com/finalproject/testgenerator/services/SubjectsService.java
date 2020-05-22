@@ -23,16 +23,13 @@ public class SubjectsService {
     }
 
     public Subject createSubject(Subject subject) {
-        subject.setId(repository.count() + 1);
+        subject.setId((int) (repository.count() + 1));
         subject = repository.save(subject);
         return subject;
     }
 
-    public Subject updateById(int id) {
-        if (repository.findById(id).isPresent()) {
-            return repository.findById(id).get();
-        }
-        return null;
+    public void updateById(Subject subject) {
+        repository.save(subject);
     }
 
     public Subject deleteById(int id) {

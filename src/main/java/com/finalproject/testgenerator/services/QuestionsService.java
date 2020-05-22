@@ -24,17 +24,14 @@ public class QuestionsService {
     }
 
     public Question createQuestion (Question question){
-        question.setId(repository.count()+1);
+        question.setId((int) (repository.count()+1));
         question = repository.save(question);
         return question;
     }
 
 
-    public Question updateById(int id) {
-        if (repository.findById(id).isPresent()) {
-            return repository.findById(id).get();
-        }
-        return null;
+    public void updateById(Question question) {
+        repository.save(question);
     }
 
     public Question deleteById(int id) {

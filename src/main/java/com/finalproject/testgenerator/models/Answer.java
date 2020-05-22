@@ -3,10 +3,7 @@ package com.finalproject.testgenerator.models;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @ApiModel(description = "All details about the Answer ")
 @Entity
@@ -18,9 +15,12 @@ public class Answer {
     private int id;
 
     @ApiModelProperty(notes = "The content of an answer")
+    @Column
     private String text;
-    @ApiModelProperty(notes = "1 - the answer is right, 0 - otherwise")
-    private int verdict;
+
+    @ApiModelProperty(notes = "1 - the answer is right, -1 - unset, 0 - otherwise")
+    @Column
+    private int verdict = -1;
 
     public Answer(){
     }

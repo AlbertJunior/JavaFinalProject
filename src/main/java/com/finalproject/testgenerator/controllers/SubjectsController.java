@@ -50,13 +50,16 @@ public class SubjectsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateSubject(@PathVariable("id") int id, @RequestParam String name) {
-        Subject subject =  service.updateById(id);
+    public ResponseEntity<String> updateSubject(@PathVariable("id") int id, @RequestBody Subject subject) {
+        Subject subject1 =  service.getSubjectById(id);
 
-        if (subject == null) {
+        if (subject1 == null) {
             return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
         }
-        subject.setName(name);
+        if (subject.getName() != null) {
+            subject1.setName(subject.getName());
+        }
+        service.updateById(subject1);
         return new ResponseEntity<>("Subject updated", HttpStatus.NO_CONTENT);
     }
 

@@ -39,13 +39,29 @@ public class QuestionsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateQuestion(@PathVariable("id") int id, @RequestParam String text) {
-        Question question =  service.updateById(id);
+    public ResponseEntity<String> updateQuestion(@PathVariable("id") int id, @RequestBody Question question) {
+        Question question1 =  service.getQuestionById(id);
 
-        if (question == null) {
+        if (question1 == null) {
             return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
         }
-        question.setText(text);
+        if (question.getText() != null) {
+            question1.setText(question.getText());
+        }
+        if (question.getSubject() != null) {
+            question1.setSubject(question.getSubject());
+        }
+        if (question.getAnswers() != null) {
+            question1.setAnswers(question.getAnswers());
+        }
+        if (question.getDifficulty() != -1) {
+            question1.setDifficulty(question.getDifficulty());
+        }
+        if (question.getTimeInSeconds() != -1) {
+            question1.setTimeInSeconds(question.getTimeInSeconds());
+        }
+        service.updateById(question1);
+
         return new ResponseEntity<>("Question updated", HttpStatus.NO_CONTENT);
     }
 
