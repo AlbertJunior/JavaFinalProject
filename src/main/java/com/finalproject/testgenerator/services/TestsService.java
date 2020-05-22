@@ -23,6 +23,8 @@ public class TestsService {
 
     public Test createTest(int totalTime, int subjectId) {
         Subject subject = subjectsService.getSubjectById(subjectId);
+        System.out.println(subject.getName());
+        System.out.println("timp total " + totalTime);
         List<Question> questions = questionsService.getAllQuestions();
         Test test = new Test(totalTime, subject, questions);
         return test;

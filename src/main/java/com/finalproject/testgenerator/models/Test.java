@@ -20,13 +20,15 @@ public class Test {
         this.subject = subject;
         this.questions = new ArrayList<>();
 
-        Predicate<Question> bySubject = question -> question.getSubject() == subject;
+        Predicate<Question> bySubject = question -> question.getSubject().getId() == subject.getId();
 
         initTest(questionsList.stream().filter(bySubject)
                 .collect(Collectors.toList())) ;
     }
 
     private void initTest(List<Question> questionsList) {
+        for (Question question:questionsList)
+            System.out.println(question.getText());
         Algorithm dynamicAlgorithm = new DynamicProgrammingAlgorithm();
         dynamicAlgorithm.resolver(this, questionsList);
         calculateDifficulty();
