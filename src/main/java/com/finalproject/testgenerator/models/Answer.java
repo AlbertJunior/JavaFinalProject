@@ -9,25 +9,25 @@ import javax.persistence.Id;
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
 
     private String text;
-    private int verdic;
+    private int verdict;
 
     public Answer(){
 
     }
 
-    public Answer(String text, int verdic) {
+    public Answer(String text, int verdict) {
         this.text = text;
-        this.verdic = verdic;
+        this.verdict = verdict;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -39,11 +39,11 @@ public class Answer {
         this.text = text;
     }
 
-    public int getVerdic() {
-        return verdic;
+    public int getVerdict() {
+        return verdict;
     }
 
-    public void setVerdic(int right) {
-        this.verdic = right;
+    public void setVerdict(int right) {
+        this.verdict = right;
     }
 }

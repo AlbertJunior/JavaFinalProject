@@ -20,14 +20,14 @@ public class AnswersController {
     private AnswersService service;
 
 
-    @ApiOperation(value = "View a list of available subjects", response = List.class)
+    @ApiOperation(value = "View a list of available answers", response = List.class)
     @GetMapping
     public ResponseEntity<List<Answer>> getAnswers(){
         List<Answer> answers = service.getAllAnswers();
         return new ResponseEntity<>(answers, new HttpHeaders(), HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "View an answer by id", response = Answer.class)
     @GetMapping("/{id}")
     public ResponseEntity<Answer> getAnswer(@PathVariable int id){
         Answer answer = service.getAnswerById(id);
@@ -37,44 +37,53 @@ public class AnswersController {
         return new ResponseEntity<>(answer, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Add a subject")
+    @ApiOperation(value = "Add an answer")
     @PostMapping
     public ResponseEntity<Answer> createAnswer(@RequestBody Answer answer){
         Answer answer1 = service.createAnswer(answer);
         return new ResponseEntity<>(answer1, new HttpHeaders(), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Update an answer")
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAnswer(@PathVariable("id") int id, @RequestParam String text) {
+    public ResponseEntity<String> updateAnswer(@PathVariable("id") int id,
+                                               @RequestParam(required = false) String text,
+                                               @RequestParam(required = false, defaultValue = "-1") int verdict) {
         Answer answer =  service.updateById(id);
 
         if (answer == null) {
             return new ResponseEntity<>("Answer not found", HttpStatus.NOT_FOUND);
         }
-        answer.setText(text);
+        if (text != null) {
+            answer.setText(text);
+        }
+        if (verdict != -1) {
+            answer.setVerdict(verdict);
+        }
         return new ResponseEntity<>("Answer updated", HttpStatus.NO_CONTENT);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<String> updateAnswer(@PathVariable("id") int id, @RequestParam Boolean right) {
-//        Answer answer =  service.updateById(id);
-//
-//        if (answer == null) {
-//            return new ResponseEntity<>("Answer not found", HttpStatus.NOT_FOUND);
-//        }
-//        answer.setRight(right);
-//        return new ResponseEntity<>("Answer updated", HttpStatus.NO_CONTENT);
-//    }
 
+    @ApiOperation(value = "Delete an answer bu id",
+            response = String.class)
+//    @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID answer"),
+//                            @ApiResponse(code = 404, message = "Answer not found"),
+//                            @ApiResponse(code = 200, message = "Answer deleted")})
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteAnswer(@PathVariable int id) {
         Answer answer =  service.deleteById(id);
 
         if (answer == null) {
-            return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Answer not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("Subject removed", HttpStatus.OK);
+        return new ResponseEntity<>("Answer removed", HttpStatus.OK);
     }
 
 
 }
+
+
+
+
+
+
