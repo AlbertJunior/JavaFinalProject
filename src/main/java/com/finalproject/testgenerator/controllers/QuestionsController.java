@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping("api/v1/questions")
 public class QuestionsController {
 
+    private final QuestionsService service;
+
     @Autowired
-    private QuestionsService service;
+    public QuestionsController (QuestionsService service){
+        this.service = service;
+    }
 
     @GetMapping("/hello")
     String hello(){

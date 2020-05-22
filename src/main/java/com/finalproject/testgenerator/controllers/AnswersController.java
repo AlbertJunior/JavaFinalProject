@@ -15,9 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/answers")
 public class AnswersController {
+    private final AnswersService service;
 
     @Autowired
-    private AnswersService service;
+    public AnswersController (AnswersService service){
+        this.service = service;
+    }
 
 
     @ApiOperation(value = "View a list of available answers", response = List.class)

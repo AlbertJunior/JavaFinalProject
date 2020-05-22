@@ -14,11 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/subjects")
-@Api(value="Employee Management System", description="Operations pertaining to employee in Employee Management Syste")
+@Api(value="Subject Management System")
 public class SubjectsController {
 
+    private final SubjectsService service;
+
     @Autowired
-    private SubjectsService service;
+    public SubjectsController (SubjectsService service){
+        this.service = service;
+    }
 
 
     @ApiOperation(value = "View a list of available subjects", response = List.class)

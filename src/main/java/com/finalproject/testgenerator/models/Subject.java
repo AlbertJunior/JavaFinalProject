@@ -13,10 +13,11 @@ import javax.persistence.Id;
 @Entity
 public class Subject {
 
-    @ApiModelProperty(notes = "The database generated employee ID")
+    @ApiModelProperty(notes = "The id of a Subject - unique")
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
+    @ApiModelProperty(notes = "The name of a subject")
     private String name;
 
     public Subject(){
