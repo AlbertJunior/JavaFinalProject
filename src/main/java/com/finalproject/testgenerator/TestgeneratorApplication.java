@@ -6,6 +6,7 @@ import com.finalproject.testgenerator.models.Subject;
 import com.finalproject.testgenerator.repositories.AnswersRepository;
 import com.finalproject.testgenerator.repositories.QuestionsRepository;
 import com.finalproject.testgenerator.repositories.SubjectsRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,11 @@ public class TestgeneratorApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TestgeneratorApplication.class, args);
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 
 	@Bean
