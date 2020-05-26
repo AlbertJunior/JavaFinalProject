@@ -28,8 +28,8 @@ public class SubjectsService {
         return subject;
     }
 
-    public void updateById(Subject subject) {
-        repository.save(subject);
+    public Subject updateById(Subject subject) {
+        return repository.save(subject);
     }
 
     public Subject deleteById(int id) {

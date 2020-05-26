@@ -2,12 +2,16 @@ package com.finalproject.testgenerator.models;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @ApiModel(description = "All details about the Question")
 @Entity
+@Getter
+@Setter
 public class Question {
     @ApiModelProperty(notes = "The id of an Answer - unique")
     @Id
@@ -19,11 +23,12 @@ public class Question {
     private String text;
 
     @ApiModelProperty(notes = "The subject it belongs to")
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
     private Subject subject;
 
     @ApiModelProperty(notes = "All the answers for this question")
-    @OneToMany
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
     @ApiModelProperty(notes = "The difficulty of a question from 1 to 100, -1 is for unset")
@@ -34,33 +39,6 @@ public class Question {
     @Column
     private int timeInSeconds;
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public int getTimeInSeconds() {
-        return timeInSeconds;
-    }
-
-    public void setTimeInSeconds(int timeInSeconds) {
-        this.timeInSeconds = timeInSeconds;
-    }
 
     public Question(String text, Subject subject) {
         this.text = text;
@@ -79,23 +57,4 @@ public class Question {
     public Question() {
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Subject getSubject (){
-        return this.subject;
-    }
 }

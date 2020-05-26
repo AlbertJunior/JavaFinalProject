@@ -2,11 +2,15 @@ package com.finalproject.testgenerator.models;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @ApiModel(description = "All details about the Answer ")
 @Entity
+@Getter
+@Setter
 public class Answer {
 
     @ApiModelProperty(notes = "The id of an Answer - unique")
@@ -22,6 +26,10 @@ public class Answer {
     @Column
     private int verdict = -1;
 
+    @ManyToOne
+    @JoinColumn (name = "question_id")
+    private Question question;
+
     public Answer(){
     }
 
@@ -30,27 +38,4 @@ public class Answer {
         this.verdict = verdict;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public int getVerdict() {
-        return verdict;
-    }
-
-    public void setVerdict(int right) {
-        this.verdict = right;
-    }
 }

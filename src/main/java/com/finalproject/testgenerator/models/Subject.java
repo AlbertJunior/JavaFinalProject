@@ -1,44 +1,42 @@
 package com.finalproject.testgenerator.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @ApiModel(description = "All details about the Subject ")
 @Entity
+@Getter
+@Setter
 public class Subject {
 
     @ApiModelProperty(notes = "The id of a Subject - unique")
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ApiModelProperty(notes = "The name of a subject")
     @Column
     private String name;
 
-    public Subject(){
-    }
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Question> questions;
 
-    public Subject(String name){
+
+    public Subject(@NonNull String name) {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public Subject() {
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

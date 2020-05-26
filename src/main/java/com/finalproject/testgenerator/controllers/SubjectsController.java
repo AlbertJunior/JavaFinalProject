@@ -1,5 +1,6 @@
 package com.finalproject.testgenerator.controllers;
 
+import com.finalproject.testgenerator.models.Question;
 import com.finalproject.testgenerator.models.Subject;
 import com.finalproject.testgenerator.services.SubjectsService;
 import io.swagger.annotations.Api;
@@ -71,6 +72,20 @@ public class SubjectsController {
             return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>("Subject removed", HttpStatus.OK);
+    }
+    @GetMapping (value = "/{id}/questions")
+    public List<Question> getQuestions(@PathVariable int id){
+        Subject subject = service.getSubjectById(id);
+        return subject.getQuestions();
+    }
+
+    @PostMapping (value = "/{id}/questions")
+    public List<Question> createQuestion(@PathVariable int id, @RequestBody List<Question> questions){
+        final Subject subject = service.getSubjectById(id);
+        questions.stream()
+                .forEach(x -> x.setSubject(subject));
+        subject.getQuestions().addAll(questions);
+        return service.updateById(subject).getQuestions();
     }
 
 }

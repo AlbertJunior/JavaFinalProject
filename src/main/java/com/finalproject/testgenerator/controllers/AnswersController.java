@@ -42,7 +42,7 @@ public class AnswersController {
 
     @ApiOperation(value = "Add an answer")
     @PostMapping
-    public ResponseEntity<Answer> createAnswer(@RequestBody Answer answer){
+    public ResponseEntity<Answer> createAnswer(@RequestBody Answer answer, @RequestHeader("my-number") int myNumber){
         Answer answer1 = service.createAnswer(answer);
         return new ResponseEntity<>(answer1, new HttpHeaders(), HttpStatus.CREATED);
     }
