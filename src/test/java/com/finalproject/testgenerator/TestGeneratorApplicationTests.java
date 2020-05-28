@@ -48,7 +48,6 @@ class TestGeneratorApplicationTests {
 	}
 	@Test
 	void generateOptimTest(){
-
 	}
 
 	@Test

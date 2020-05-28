@@ -1,5 +1,6 @@
 package com.finalproject.testgenerator.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn (name = "question_id")
+    @JsonIgnore
     private Question question;
 
     public Answer(){

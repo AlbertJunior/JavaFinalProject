@@ -1,5 +1,6 @@
 package com.finalproject.testgenerator.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Question {
     @ApiModelProperty(notes = "The subject it belongs to")
     @ManyToOne
     @JoinColumn(name = "subject_id")
+    @JsonIgnore
     private Subject subject;
 
     @ApiModelProperty(notes = "All the answers for this question")

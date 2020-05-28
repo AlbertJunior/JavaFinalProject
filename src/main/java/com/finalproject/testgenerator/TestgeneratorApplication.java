@@ -27,6 +27,8 @@ public class TestgeneratorApplication {
 	@Bean
 	ApplicationRunner applicationRunner(QuestionsRepository repository, SubjectsRepository subjectsRepository, AnswersRepository answersRepository){
 		return args -> {
+			Answer answer =  new Answer("VALEU", 1);
+			answersRepository.save(answer);
 			answersRepository.save(new Answer("raspuns1", 1));
 			answersRepository.save(new Answer("raspuns2", 0));
 			Subject subject = new Subject("matematica");
