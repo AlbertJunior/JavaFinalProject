@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class QuestionsService {
 
-    @Autowired
     private QuestionsRepository repository;
+
+    @Autowired
+    public QuestionsService (QuestionsRepository questionsRepository){
+        this.repository = questionsRepository;
+    }
 
     public List<Question> getAllQuestions() {
         List<Question> questions = repository.findAll();

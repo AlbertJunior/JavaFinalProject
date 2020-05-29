@@ -15,7 +15,7 @@ public class TestsController {
 
 
     @Autowired
-    public TestsController(TestsService service){
+    public TestsController(TestsService service) {
         this.service = service;
     }
 
@@ -23,9 +23,8 @@ public class TestsController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Test getQuestions(@RequestParam int totalTime,
-                                                       @RequestParam int subjectId){
+                             @RequestParam int subjectId) {
         Test test = service.createTest(totalTime, subjectId);
-//        return new ResponseEntity<>(test, new HttpHeaders(), HttpStatus.OK);
         return test;
     }
 

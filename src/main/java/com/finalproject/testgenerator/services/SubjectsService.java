@@ -10,8 +10,13 @@ import java.util.List;
 
 @Service
 public class SubjectsService {
-    @Autowired
+
     private SubjectsRepository repository;
+
+    @Autowired
+    public SubjectsService (SubjectsRepository subjectsRepository){
+        this.repository = subjectsRepository;
+    }
 
     public List<Subject> getAllSubjects() {
         List<Subject> subjects = repository.findAll();

@@ -2,6 +2,7 @@ package com.finalproject.testgenerator.controllers;
 
 import com.finalproject.testgenerator.DTOs.AnswerDTO;
 import com.finalproject.testgenerator.DTOs.QuestionDTO;
+import com.finalproject.testgenerator.exceptions.NotFoundException;
 import com.finalproject.testgenerator.models.Answer;
 import com.finalproject.testgenerator.models.Question;
 import com.finalproject.testgenerator.models.Subject;
@@ -12,11 +13,11 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("api/v1/subjects")
 @Api(value = "Subject Management System")
+@Transactional
 public class SubjectsController {
 
     private final SubjectsService subjectService;
@@ -42,7 +44,6 @@ public class SubjectsController {
     @ResponseStatus(value = HttpStatus.OK)
     public List<Subject> getSubjects() {
         List<Subject> questions = subjectService.getAllSubjects();
-
         logger.info("Get all the subjects");
         return questions;
     }
@@ -50,48 +51,51 @@ public class SubjectsController {
 
     @GetMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<Subject> getSubject(@PathVariable int id) {
-        Subject question = subjectService.getSubjectById(id);
-        if (question == null) {
-            logger.warn("Subject not found");
-            return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    public Subject getSubject(@PathVariable int id) throws NotFoundException {
+        Subject subject = subjectService.getSubjectById(id);
+        if (subject == null) {
+            logger.warn("Subject " + id + " not found");
+            throw new NotFoundException("Subject " + id + " not found");
         }
         logger.info("Get a subject by id");
-        return new ResponseEntity<>(question, new HttpHeaders(), HttpStatus.OK);
+        return subject;
     }
 
     @ApiOperation(value = "Add a subject")
     @PostMapping
-    public ResponseEntity<Subject> createSubject(@RequestBody Subject subject) {
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Subject createSubject(@RequestBody Subject subject) {
         Subject subject1 = subjectService.createSubject(subject);
         logger.info("The subject with the id " +  subject1.getId() + " was created");
-        return new ResponseEntity<>(subject1, new HttpHeaders(), HttpStatus.CREATED);
+        return subject1;
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateSubject(@PathVariable("id") int id, @RequestBody Subject subject) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public Subject updateSubject(@PathVariable("id") int id,
+                                 @RequestBody Subject subject) throws NotFoundException {
         Subject subject1 = subjectService.getSubjectById(id);
 
         if (subject1 == null) {
             logger.warn("Subject not found");
-            return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Subject " + id + " not found");
         }
         if (subject.getName() != null) {
             subject1.setName(subject.getName());
         }
         logger.info("The subject with the id " +  subject1.getId() + " was updated");
-        subjectService.updateById(subject1);
-        return new ResponseEntity<>("Subject updated", HttpStatus.NO_CONTENT);
+        return subjectService.updateById(subject1);
     }
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> deleteSubject(@PathVariable int id) {
+    public ResponseEntity<String> deleteSubject(@PathVariable int id) throws NotFoundException {
         Subject subject = subjectService.deleteById(id);
 
         if (subject == null) {
             logger.warn("Subject not found");
-            return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Subject " + id + " not found");
         }
         logger.info("The subject with the id " +  subject.getId() + " was deleted");
         return null;
@@ -108,23 +112,24 @@ public class SubjectsController {
 
         List<QuestionDTO> questionDTOS = new ArrayList<>();
         for (Question question : subject.getQuestions()){
-            questionDTOS.add(this.convertToDto(question));
+            questionDTOS.add(modelMapper.map(question, QuestionDTO.class));
         }
         return questionDTOS;
     }
 
     @GetMapping(value = "/{id}/questions/{id1}")
     @ResponseStatus(value = HttpStatus.OK)
-    public QuestionDTO getQuestion(@PathVariable int id, @PathVariable int id1) {
+    public QuestionDTO getQuestion(@PathVariable int id, @PathVariable int id1) throws NotFoundException {
         Subject subject = subjectService.getSubjectById(id);
         for (Question question : subject.getQuestions()){
             if (question.getId() == id1) {
-                logger.info("Get all the questions for subject " + id);
-                return this.convertToDto(question);
+                logger.info("Get the questions " + id1 + "  for subject " + id);
+                return modelMapper.map(question, QuestionDTO.class);
             }
         }
         logger.warn("Question not found" + id);
-        return null;
+        throw new NotFoundException("Question not found" + id);
+
     }
 
     @PostMapping(value = "/{id}/questions")
@@ -133,7 +138,7 @@ public class SubjectsController {
         final Subject subject = subjectService.getSubjectById(id);
 
         List<Question> questions1 = new ArrayList<>();
-        questions.stream().forEach(x -> questions1.add(this.convertToEntity(x)));
+        questions.stream().forEach(x -> questions1.add(modelMapper.map(x, Question.class)));
         questions1.stream()
                 .forEach(x -> x.setSubject(subject));
         subject.getQuestions().addAll(questions1);
@@ -151,9 +156,13 @@ public class SubjectsController {
                 .filter(x -> x.getId() == id1)
                 .collect(Collectors.toList())
                 .forEach(x -> {
+                    List<Answer> answers = new ArrayList<>();
+                    for (AnswerDTO answerDTO : question.getAnswers()){
+                        answers.add(modelMapper.map(answerDTO, Answer.class));
+                    }
                     x.setTimeInSeconds(question.getTimeInSeconds());
                     x.setDifficulty(question.getDifficulty());
-                    x.setAnswers(question.getAnswers().stream().map(this::convertToEntity).collect(Collectors.toList()));
+                    x.setAnswers(answers);
                     x.setText(question.getText());
                 });
         subjectService.updateById(subject);
@@ -163,7 +172,7 @@ public class SubjectsController {
 
     @DeleteMapping(value = "/{id}/questions/{id1}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public Question deleteQuestion(@PathVariable("id") int id,
+    public ResponseEntity<?> deleteQuestion(@PathVariable("id") int id,
                                    @PathVariable("id1") int id1) {
         Subject subject = subjectService.getSubjectById(id);
         subject.getQuestions().stream()
@@ -174,38 +183,6 @@ public class SubjectsController {
         subjectService.updateById(subject);
         logger.info("deleted question " + id1 + " for subject " + id);
         return null;
-    }
-
-
-//    --------------------------------------DTO CONVERSIONS---------------------------------------------------------
-
-    private QuestionDTO convertToDto(Question question) {
-        List<Answer> answers = question.getAnswers();
-        List<AnswerDTO> answerDTOS = new ArrayList<>();
-        for (Answer answer : answers){
-            answerDTOS.add(this.convertToDto(answer));
-            logger.warn(answerDTOS.get(0).toString());
-        }
-
-        QuestionDTO postDto = modelMapper.map(question, QuestionDTO.class);
-        postDto.getAnswers().addAll(answerDTOS);
-        return postDto;
-    }
-
-    private Question convertToEntity(QuestionDTO postDto) {
-        Question question = modelMapper.map(postDto, Question.class);
-        return question;
-    }
-
-
-    private AnswerDTO convertToDto(Answer answer) {
-        AnswerDTO postDto = modelMapper.map(answer, AnswerDTO.class);
-        return postDto;
-    }
-
-    private Answer convertToEntity(AnswerDTO postDto) {
-        Answer answer = modelMapper.map(postDto, Answer.class);
-        return answer;
     }
 
 }

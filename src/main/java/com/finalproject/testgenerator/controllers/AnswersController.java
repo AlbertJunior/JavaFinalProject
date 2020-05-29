@@ -1,6 +1,7 @@
 package com.finalproject.testgenerator.controllers;
 
 import com.finalproject.testgenerator.DTOs.AnswerDTO;
+import com.finalproject.testgenerator.exceptions.NotFoundException;
 import com.finalproject.testgenerator.models.Answer;
 import com.finalproject.testgenerator.services.AnswersService;
 import io.swagger.annotations.ApiOperation;
@@ -8,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class AnswersController {
     private final AnswersService answersService;
 
     private ModelMapper modelMapper;
-    Logger logger = LoggerFactory.getLogger(SubjectsController.class);
+    Logger logger = LoggerFactory.getLogger(AnswersController.class);
 
     @Autowired
     public AnswersController (AnswersService answersService, ModelMapper modelMapper){
@@ -34,42 +34,50 @@ public class AnswersController {
 
     @ApiOperation(value = "View a list of available answers", response = List.class)
     @GetMapping
-    public ResponseEntity<List<AnswerDTO>> getAnswers(){
+    @ResponseStatus (value = HttpStatus.OK)
+    public List<AnswerDTO> getAnswers(){
         List<Answer> answers = answersService.getAllAnswers();
         List<AnswerDTO> answerDTOS = new ArrayList<>();
         for (Answer answer : answers){
-            answerDTOS.add(this.convertToDto(answer));
+            answerDTOS.add(modelMapper.map(answer, AnswerDTO.class));
         }
-
-        return new ResponseEntity<>(answerDTOS, new HttpHeaders(), HttpStatus.OK);
+        logger.info("Get all the answers");
+        return answerDTOS;
     }
 
     @ApiOperation(value = "View an answer by id", response = Answer.class)
     @GetMapping("/{id}")
-    public ResponseEntity<AnswerDTO> getAnswer(@PathVariable int id){
+    @ResponseStatus (value = HttpStatus.OK)
+    public AnswerDTO getAnswer(@PathVariable int id) throws NotFoundException {
         Answer answer = answersService.getAnswerById(id);
         if (answer == null){
-            return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
+            logger.warn("Answer with id " + id + " not found");
+            throw new NotFoundException("Answer with id " + id + " not found");
         }
-        AnswerDTO answerDTO = this.convertToDto(answer);
-        return new ResponseEntity<>(answerDTO, new HttpHeaders(), HttpStatus.OK);
+        AnswerDTO answerDTO = modelMapper.map(answer, AnswerDTO.class);
+        logger.info("Get an answer by id" + id);
+        return answerDTO;
     }
 
     @ApiOperation(value = "Add an answer")
     @PostMapping
-    public ResponseEntity<AnswerDTO> createAnswer(@RequestBody AnswerDTO answer){
-        answersService.createAnswer(this.convertToEntity(answer));
-        return new ResponseEntity<>(answer, new HttpHeaders(), HttpStatus.CREATED);
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public AnswerDTO createAnswer(@RequestBody AnswerDTO answer){
+        Answer answer1 = modelMapper.map(answer, Answer.class);
+        answersService.createAnswer(answer1);
+        logger.info("Answer " + answer1.getId() + " was created");
+        return answer;
     }
 
     @ApiOperation(value = "Update an answer")
     @PutMapping("/{id}")
-    public ResponseEntity<AnswerDTO> updateAnswer(@PathVariable("id") int id,
-                                               @RequestBody AnswerDTO answer) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public AnswerDTO updateAnswer(@PathVariable("id") int id,
+                                  @RequestBody AnswerDTO answer) throws NotFoundException {
         Answer answer1 =  answersService.getAnswerById(id);
 
         if (answer1 == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Answer " + id + " not found");
         }
         if (answer.getText() != null){
             answer1.setText(answer.getText());
@@ -78,8 +86,9 @@ public class AnswersController {
             answer1.setVerdict(answer.getVerdict());
         }
         answersService.updateById(answer1);
-        AnswerDTO answerDTO = this.convertToDto(answer1);
-        return new ResponseEntity<>(answerDTO, HttpStatus.NO_CONTENT);
+        logger.info("Answer " + answer1.getId() + " was updated");
+        AnswerDTO answerDTO = modelMapper.map(answer, AnswerDTO.class);
+        return answerDTO;
     }
 
 
@@ -90,24 +99,19 @@ public class AnswersController {
 //                            @ApiResponse(code = 404, message = "Answer not found"),
 //                            @ApiResponse(code = 200, message = "Answer deleted")})
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAnswer(@PathVariable int id) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public ResponseEntity<?> deleteAnswer(@PathVariable int id) throws NotFoundException {
         Answer answer =  answersService.deleteById(id);
 
         if (answer == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            logger.info("Answer " + id + " was not found");
+            throw new NotFoundException("Answer " + id + " was not found");
         }
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        logger.info("Answer " + id + " was deleted");
+        return null;
     }
 
-    private AnswerDTO convertToDto(Answer answer) {
-        AnswerDTO postDto = modelMapper.map(answer, AnswerDTO.class);
-        return postDto;
-    }
 
-    private Answer convertToEntity(AnswerDTO postDto) {
-        Answer answer = modelMapper.map(postDto, Answer.class);
-        return answer;
-    }
 
 }
 

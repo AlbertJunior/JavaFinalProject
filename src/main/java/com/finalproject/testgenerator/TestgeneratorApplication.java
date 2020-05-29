@@ -33,6 +33,10 @@ public class TestgeneratorApplication {
 			answersRepository.save(new Answer("raspuns2", 0));
 			Subject subject = new Subject("matematica");
 			subjectsRepository.save(subject);
+			subject = new Subject("romana");
+			subjectsRepository.save(subject);
+			subject = new Subject("engleza");
+			subjectsRepository.save(subject);
 
 			repository.save(new Question("tu?", 3, 5, subject));
 			repository.save(new Question("da???", 3, 5, subject));
