@@ -54,13 +54,13 @@ class TestGeneratorApplicationTests {
 				isEqualTo(HttpStatus.SC_OK);
 	}
 	@Test
-	void generateOptimumTest(){
+	void generateOptimumTest() throws NotFoundException {
 		com.finalproject.testgenerator.models.Test test1 = testsService.createTest(10, 6);
 		assertThat(test1.getDifficulty()).isEqualTo(19);
 	}
 
 	@Test
-	void generateTest(){
+	void generateTest() throws NotFoundException {
 		com.finalproject.testgenerator.models.Test test1 = testsService.createTest(10, 6);
 		assertThat(test1.getTotalTime())
 				.isEqualTo(10);
@@ -90,7 +90,7 @@ class TestGeneratorApplicationTests {
 	}
 
 	@Test
-	void getTestWithController(){
+	void getTestWithController() throws NotFoundException {
 		com.finalproject.testgenerator.models.Test test = testsController.getQuestions(10, 6);
 		assertThat(test.getTotalTime()).isEqualTo(10);
 	}
@@ -110,13 +110,13 @@ class TestGeneratorApplicationTests {
 	@Test
 	void postSubjectWithController(){
 		Subject subject1 = new Subject("romana");
-		Subject subject2 = subjectsController.createSubject(subject1);
+		Subject subject2 = subjectsController.createSubject(subject1, null);
 		assertThat(subject2).isNotNull();
 	}
 
 	@Test
 	void deleteSubjectsWithController() throws NotFoundException {
-		ResponseEntity<String> responseEntity =subjectsController.deleteSubject(5);
+		ResponseEntity<String> responseEntity =subjectsController.deleteSubject(5, null);
 		assertThat(responseEntity).isNull();
 	}
 
@@ -136,10 +136,10 @@ class TestGeneratorApplicationTests {
 
 		List<QuestionDTO> list1 = new ArrayList<>();
 		list1.add(questionDTO1);
-		List<Question> list2 = subjectsController.createQuestion(4, list1);
+		List<Question> list2 = subjectsController.createQuestion(4, list1, null);
 		assertThat(list2).isNotNull();
 
-		ResponseEntity<?> responseEntity =subjectsController.deleteQuestion(4, 6);
+		ResponseEntity<?> responseEntity =subjectsController.deleteQuestion(4, 6, null);
 		assertThat(responseEntity).isNull();
 	}
 
@@ -155,10 +155,10 @@ class TestGeneratorApplicationTests {
 		answerDTO1.setVerdict(1);
 		answerDTO1.setText("YES");
 
-		AnswerDTO answer = answersController.createAnswer(answerDTO1);
+		AnswerDTO answer = answersController.createAnswer(answerDTO1, null);
 		assertThat(answer).isNotNull();
 
-		ResponseEntity<?> responseEntity = answersController.deleteAnswer(2);
+		ResponseEntity<?> responseEntity = answersController.deleteAnswer(2, null);
 		assertThat(responseEntity).isNull();
 	}
 

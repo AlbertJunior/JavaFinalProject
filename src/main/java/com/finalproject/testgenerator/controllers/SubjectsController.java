@@ -64,7 +64,8 @@ public class SubjectsController {
     @ApiOperation(value = "Add a subject")
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Subject createSubject(@RequestBody Subject subject) {
+    public Subject createSubject(@RequestBody Subject subject,
+                                 @RequestHeader(name = "Authorization") String token) {
         Subject subject1 = subjectService.createSubject(subject);
         logger.info("The subject with the id " +  subject1.getId() + " was created");
         return subject1;
@@ -74,7 +75,8 @@ public class SubjectsController {
     @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public Subject updateSubject(@PathVariable("id") int id,
-                                 @RequestBody Subject subject) throws NotFoundException {
+                                 @RequestBody Subject subject,
+                                 @RequestHeader(name = "Authorization") String token) throws NotFoundException {
         Subject subject1 = subjectService.getSubjectById(id);
 
         if (subject1 == null) {
@@ -90,7 +92,8 @@ public class SubjectsController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> deleteSubject(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> deleteSubject(@PathVariable int id,
+                                                @RequestHeader(name = "Authorization") String token) throws NotFoundException {
         Subject subject = subjectService.deleteById(id);
 
         if (subject == null) {
@@ -134,7 +137,9 @@ public class SubjectsController {
 
     @PostMapping(value = "/{id}/questions")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public List<Question> createQuestion(@PathVariable int id, @RequestBody List<QuestionDTO> questions) {
+    public List<Question> createQuestion(@PathVariable int id,
+                                         @RequestBody List<QuestionDTO> questions,
+                                         @RequestHeader(name = "Authorization") String token) {
         final Subject subject = subjectService.getSubjectById(id);
 
         List<Question> questions1 = new ArrayList<>();
@@ -149,8 +154,9 @@ public class SubjectsController {
     @PutMapping(value = "/{id}/questions/{id1}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public QuestionDTO updateQuestion(@PathVariable("id") int id,
-                                                 @PathVariable("id1") int id1,
-                                                 @RequestBody QuestionDTO question) {
+                                      @PathVariable("id1") int id1,
+                                      @RequestBody QuestionDTO question,
+                                      @RequestHeader(name = "Authorization") String token) {
         final Subject subject = subjectService.getSubjectById(id);
         subject.getQuestions().stream()
                 .filter(x -> x.getId() == id1)
@@ -173,7 +179,8 @@ public class SubjectsController {
     @DeleteMapping(value = "/{id}/questions/{id1}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<?> deleteQuestion(@PathVariable("id") int id,
-                                   @PathVariable("id1") int id1) {
+                                            @PathVariable("id1") int id1,
+                                            @RequestHeader(name = "Authorization") String token) {
         Subject subject = subjectService.getSubjectById(id);
         subject.getQuestions().stream()
                 .filter(x -> x.getId() == id1)

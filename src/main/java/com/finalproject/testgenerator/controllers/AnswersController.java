@@ -62,7 +62,8 @@ public class AnswersController {
     @ApiOperation(value = "Add an answer")
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public AnswerDTO createAnswer(@RequestBody AnswerDTO answer){
+    public AnswerDTO createAnswer(@RequestBody AnswerDTO answer,
+                                  @RequestHeader(name = "Authorization") String token){
         Answer answer1 = modelMapper.map(answer, Answer.class);
         answersService.createAnswer(answer1);
         logger.info("Answer " + answer1.getId() + " was created");
@@ -73,7 +74,8 @@ public class AnswersController {
     @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public AnswerDTO updateAnswer(@PathVariable("id") int id,
-                                  @RequestBody AnswerDTO answer) throws NotFoundException {
+                                  @RequestBody AnswerDTO answer,
+                                  @RequestHeader(name = "Authorization") String token) throws NotFoundException {
         Answer answer1 =  answersService.getAnswerById(id);
 
         if (answer1 == null) {
@@ -100,7 +102,8 @@ public class AnswersController {
 //                            @ApiResponse(code = 200, message = "Answer deleted")})
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> deleteAnswer(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<?> deleteAnswer(@PathVariable int id,
+                                          @RequestHeader(name = "Authorization") String token) throws NotFoundException {
         Answer answer =  answersService.deleteById(id);
 
         if (answer == null) {

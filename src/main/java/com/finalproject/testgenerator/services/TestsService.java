@@ -1,5 +1,6 @@
 package com.finalproject.testgenerator.services;
 
+import com.finalproject.testgenerator.exceptions.NotFoundException;
 import com.finalproject.testgenerator.models.Question;
 import com.finalproject.testgenerator.models.Subject;
 import com.finalproject.testgenerator.models.Test;
@@ -21,8 +22,11 @@ public class TestsService {
     }
 
 
-    public Test createTest(int totalTime, int subjectId) {
+    public Test createTest(int totalTime, int subjectId) throws NotFoundException {
         Subject subject = subjectsService.getSubjectById(subjectId);
+        if (subject == null) {
+            throw new NotFoundException("Subject " + subjectId + " was not found");
+        }
         System.out.println(subject.getName());
         System.out.println("timp total " + totalTime);
         List<Question> questions = questionsService.getAllQuestions();

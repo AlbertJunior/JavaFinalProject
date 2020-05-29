@@ -1,6 +1,7 @@
 package com.finalproject.testgenerator.controllers;
 
 
+import com.finalproject.testgenerator.exceptions.NotFoundException;
 import com.finalproject.testgenerator.models.Test;
 import com.finalproject.testgenerator.services.TestsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class TestsController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Test getQuestions(@RequestParam int totalTime,
-                             @RequestParam int subjectId) {
+                             @RequestParam int subjectId) throws NotFoundException {
         Test test = service.createTest(totalTime, subjectId);
         return test;
     }
