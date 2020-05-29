@@ -16106,3 +16106,50 @@
 2020-05-29 11:53:53.246  WARN 15352 --- [http-nio-8090-exec-6] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
 2020-05-29 11:53:53.252  WARN 15352 --- [http-nio-8090-exec-8] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
 2020-05-29 11:53:53.266  WARN 15352 --- [http-nio-8090-exec-7] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:56:54.908  INFO 13416 --- [main] c.f.t.TestgeneratorApplication           : Starting TestgeneratorApplication on DESKTOP-JF75GQK with PID 13416 (F:\Sem2\JavaFinalProject\testgenerator\target\classes started by Ramona in F:\Sem2\JavaFinalProject\testgenerator)
+2020-05-29 11:56:54.912 DEBUG 13416 --- [main] c.f.t.TestgeneratorApplication           : Running with Spring Boot v2.2.7.RELEASE, Spring v5.2.6.RELEASE
+2020-05-29 11:56:54.913  INFO 13416 --- [main] c.f.t.TestgeneratorApplication           : No active profile set, falling back to default profiles: default
+2020-05-29 11:56:55.804  INFO 13416 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-05-29 11:56:55.867  INFO 13416 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55ms. Found 3 JPA repository interfaces.
+2020-05-29 11:56:56.143  INFO 13416 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@7428de63' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-29 11:56:56.146  INFO 13416 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-29 11:56:56.320  INFO 13416 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2020-05-29 11:56:56.326  INFO 13416 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-05-29 11:56:56.327  INFO 13416 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-05-29 11:56:56.438  INFO 13416 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-05-29 11:56:56.438  INFO 13416 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1467 ms
+2020-05-29 11:56:56.476  INFO 13416 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-05-29 11:56:56.556  INFO 13416 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-05-29 11:56:56.560  INFO 13416 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2 -console'. Database available at 'jdbc:h2:mem:testdb'
+2020-05-29 11:56:56.610 DEBUG 13416 --- [main] c.f.t.security.JwtRequestFilter          : Filter 'jwtRequestFilter' configured for use
+2020-05-29 11:56:56.751  INFO 13416 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-05-29 11:56:56.781  INFO 13416 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-05-29 11:56:56.864  INFO 13416 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-05-29 11:56:56.937  INFO 13416 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020-05-29 11:56:57.447  INFO 13416 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-05-29 11:56:57.452  INFO 13416 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-05-29 11:56:57.709  WARN 13416 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-05-29 11:56:58.122  INFO 13416 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@64757d56, org.springframework.security.web.context.SecurityContextPersistenceFilter@5ca22e19, org.springframework.security.web.header.HeaderWriterFilter@28f05b0c, org.springframework.security.web.authentication.logout.LogoutFilter@4fa91d5b, com.finalproject.testgenerator.security.JwtRequestFilter@51841ac6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1bfa3893, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@31d4b3e8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4813d0, org.springframework.security.web.session.SessionManagementFilter@44aed6a4, org.springframework.security.web.access.ExceptionTranslationFilter@31b741e2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6113a26f]
+2020-05-29 11:56:58.145  INFO 13416 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-29 11:56:58.248  INFO 13416 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-29 11:56:58.383  INFO 13416 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-05-29 11:56:58.395  INFO 13416 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-05-29 11:56:58.425  INFO 13416 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-05-29 11:56:58.564  INFO 13416 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getQuestionsUsingGET_1
+2020-05-29 11:56:58.594  INFO 13416 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2020-05-29 11:56:58.596  INFO 13416 --- [main] c.f.t.TestgeneratorApplication           : Started TestgeneratorApplication in 4.085 seconds (JVM running for 4.833)
+2020-05-29 11:57:02.526  INFO 13416 --- [http-nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-29 11:57:02.527  INFO 13416 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-05-29 11:57:02.532  INFO 13416 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2020-05-29 11:57:02.661  WARN 13416 --- [http-nio-8090-exec-1] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:02.793  WARN 13416 --- [http-nio-8090-exec-2] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:02.794  WARN 13416 --- [http-nio-8090-exec-3] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:02.850  WARN 13416 --- [http-nio-8090-exec-6] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:02.859  WARN 13416 --- [http-nio-8090-exec-5] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:02.892  WARN 13416 --- [http-nio-8090-exec-4] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:24.904  WARN 13416 --- [http-nio-8090-exec-7] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:26.127  WARN 13416 --- [http-nio-8090-exec-8] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:29.635  WARN 13416 --- [http-nio-8090-exec-9] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:29.834  INFO 13416 --- [http-nio-8090-exec-9] c.f.t.controllers.AnswersController      : Get all the answers
+2020-05-29 11:57:39.615  WARN 13416 --- [http-nio-8090-exec-10] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
+2020-05-29 11:57:41.630  WARN 13416 --- [http-nio-8090-exec-1] c.f.t.security.JwtRequestFilter          : JWT Token does not begin with Bearer String
