@@ -9,7 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @ApiModel(description = "Details about users")
-@Entity (name = "\"User\"")
+@Entity
+        (name = "Account")
 @Getter
 @Setter
 public class User {
