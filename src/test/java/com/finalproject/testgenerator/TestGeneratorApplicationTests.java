@@ -49,8 +49,7 @@ class TestGeneratorApplicationTests {
 	void getTest() throws IOException {
 		HttpUriRequest request = new HttpGet( "http://localhost:8090/api/v1/tests?totalTime=10&subjectId=6");
 		HttpResponse httpResponse =HttpClientBuilder.create().build().execute( request );
-		assertThat(
-				httpResponse.getStatusLine().getStatusCode()).
+		assertThat(httpResponse.getStatusLine().getStatusCode()).
 				isEqualTo(HttpStatus.SC_OK);
 	}
 	@Test

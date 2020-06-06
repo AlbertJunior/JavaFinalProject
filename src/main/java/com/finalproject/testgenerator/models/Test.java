@@ -2,6 +2,7 @@ package com.finalproject.testgenerator.models;
 
 import com.finalproject.testgenerator.algorithms.Algorithm;
 import com.finalproject.testgenerator.algorithms.DynamicProgrammingAlgorithm;
+import com.finalproject.testgenerator.exceptions.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Test {
     private int totalTime;
     private int difficulty;
 
-    public Test (int totalTime, Subject subject, List<Question> questionsList){
+    public Test (int totalTime, Subject subject, List<Question> questionsList) throws NotFoundException {
         this.totalTime = totalTime;
         this.subject = subject;
         this.questions = new ArrayList<>();
@@ -26,7 +27,7 @@ public class Test {
                 .collect(Collectors.toList())) ;
     }
 
-    private void initTest(List<Question> questionsList) {
+    private void initTest(List<Question> questionsList) throws NotFoundException {
         for (Question question:questionsList)
             System.out.println(question.getText());
         Algorithm dynamicAlgorithm = new DynamicProgrammingAlgorithm();

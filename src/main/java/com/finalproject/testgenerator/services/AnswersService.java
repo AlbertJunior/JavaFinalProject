@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a service for answers
+ */
 @Service
 public class AnswersService {
 

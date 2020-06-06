@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * This class represents a service for generating test
+ */
 @Service
 public class TestsService {
 

@@ -30,7 +30,7 @@ public class SubjectsController {
 
     private final SubjectsService subjectService;
     private ModelMapper modelMapper;
-    Logger logger = LoggerFactory.getLogger(SubjectsController.class);
+    private Logger logger = LoggerFactory.getLogger(SubjectsController.class);
 
     @Autowired
     public SubjectsController(SubjectsService subjectService, ModelMapper modelMapper) {

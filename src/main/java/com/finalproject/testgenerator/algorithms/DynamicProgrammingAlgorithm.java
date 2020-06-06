@@ -1,43 +1,72 @@
 package com.finalproject.testgenerator.algorithms;
 
+import com.finalproject.testgenerator.exceptions.NotFoundException;
 import com.finalproject.testgenerator.models.Question;
 import com.finalproject.testgenerator.models.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 import static sun.swing.MenuItemLayoutHelper.max;
 
+/**
+ * This class is a functional one which creates a test from a list of question and a time limit
+ */
 public class DynamicProgrammingAlgorithm implements Algorithm{
+    private int timeLimit = 10000;
+    private int maxNumberOfQuestions = 10000;
+    private Logger logger = LoggerFactory.getLogger(DynamicProgrammingAlgorithm.class);
+
+    /**
+     * This is the main method of this class
+     * It calculates the max difficulty of a test with a given time limit and a list of questions
+     * @param test
+     * @param questions
+     */
     @Override
-    public void resolver(Test test, List<Question> questions) {
+    public void resolver(Test test, List<Question> questions) throws NotFoundException {
         int i;
         int w;
-        int[][] dp = new int[10000][10000];
+        int[][] dp = new int[maxNumberOfQuestions][timeLimit];
         int totalTime = test.getTotalTime();
+
+        if (questions == null){
+            logger.error("No question found");
+            throw new NotFoundException("No questions was found");
+        }
 
         init(dp, questions.size(), totalTime);
 
         for (i = 1; i <= questions.size(); i++) {
             for (w = 1; w <= totalTime; w++) {
-                if (questions.get(i - 1).getTimeInSeconds() <= w) // pot sa l iau si valoarea va fi rezultatul optim al ghiozdanului
+                if (questions.get(i - 1).getTimeInSeconds() <= w) //I can choose this question and it's optimum
                 {
-                    dp[i][w] = max(dp[i - 1][w - questions.get(i - 1).getTimeInSeconds()] + questions.get(i - 1).getDifficulty(), //cu capacitate mai mica + valoarea adusa de acest obiect
-                            dp[i - 1][w]); //pot sa nu l iau
+                    dp[i][w] = max(dp[i - 1][w - questions.get(i - 1).getTimeInSeconds()] + questions.get(i - 1).getDifficulty(), //I can take this item
+                            dp[i - 1][w]); //I can skip this item
                 } else {
-                    dp[i][w] = dp[i - 1][w]; // daca nu pot lua obiectul nici nu l iau
+                    dp[i][w] = dp[i - 1][w]; // If I don't have enough time, I need to skip it too
                 }
             }
-        }// pana aici am aflat castigul maxim
-        constructTest(test, dp, questions); // aici aflu obiectele pe care le-am luat in solutia generata mai sus
+        }// now I have the max difficulty in dp[questions.size()][timeLimit]
+        logger.info("Max difficulty of test is " + dp[questions.size()][test.getTotalTime()]);
+        constructTest(test, dp, questions);
     }
-    void constructTest(Test test, int[][] dp, List<Question> questions) {
+
+    /**
+     * This method constructs an optimum test with a given max difficulty for a certain time
+     * @param test
+     * @param dp
+     * @param questions
+     */
+    private void constructTest(Test test, int[][] dp, List<Question> questions) {
 
         int w = test.getTotalTime();
         int i;
         int n = questions.size();
         int value = dp[n][w];
 
-        for (i = n; i > 0 && value > 0; i--) { // aici ma intorc ca intr-un BKT
+        for (i = n; i > 0 && value > 0; i--) { //this is a back step (like in BKT)
             if (value != dp[i - 1][w]) {
                 test.addQuestion(questions.get(i - 1));
                 value = value - questions.get(i - 1).getDifficulty();
@@ -46,13 +75,19 @@ public class DynamicProgrammingAlgorithm implements Algorithm{
         }
     }
 
-    void init(int[][] dp, int n, int cap) { // initializarile specifice programarii dinamice
+    /**
+     * This method initializes dp structure for dynamic programming algorithm
+     * @param dp
+     * @param n
+     * @param cap
+     */
+    private void init(int[][] dp, int n, int cap) {
         int i;
         int w;
-        for (i = 0; i < n; i++) // pentru oricate obiecte luate in calcult, daca avem capacitatea 0, castigul va fi 0
+        for (i = 0; i < n; i++) // Time = 0 -> difficulty=0 (0 questions)
             dp[i][0] = 0;
 
-        for (w = 0; w < cap; w++)// pentru orice capacitate a rucsacului, daca nu luam niciun obiect in calcul, castigul va fi 0
+        for (w = 0; w < cap; w++) // 0 questions -> difficulty=0
             dp[0][w] = 0;
     }
 }

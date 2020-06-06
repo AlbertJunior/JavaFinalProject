@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * This class will catch the NotFoundException
+ * It will send an errorDTO with a specific message
+ */
 @RestControllerAdvice
 public class ControllerAdvice {
     Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
@@ -18,7 +22,6 @@ public class ControllerAdvice {
         logger.error(e.getMessage());
         return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
     }
-
 }
 
 

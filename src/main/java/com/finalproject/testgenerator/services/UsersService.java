@@ -2,12 +2,14 @@ package com.finalproject.testgenerator.services;
 
 import com.finalproject.testgenerator.models.User;
 import com.finalproject.testgenerator.repositories.UsersRepository;
-import jdk.internal.dynalink.support.NameCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * This class represents a service for creating and login a user
+ */
 @Service
 public class UsersService{
     private UsersRepository usersRepository;

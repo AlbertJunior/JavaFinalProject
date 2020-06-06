@@ -23,7 +23,7 @@ public class AnswersController {
     private final AnswersService answersService;
 
     private ModelMapper modelMapper;
-    Logger logger = LoggerFactory.getLogger(AnswersController.class);
+    private Logger logger = LoggerFactory.getLogger(AnswersController.class);
 
     @Autowired
     public AnswersController (AnswersService answersService, ModelMapper modelMapper){
