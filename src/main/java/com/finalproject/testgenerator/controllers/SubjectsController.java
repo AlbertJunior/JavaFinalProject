@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class gets all the requests for subjects and questions and takes care of them
+ */
 @RestController
 @RequestMapping("api/v1/subjects")
 @Api(value = "Subject Management System")
@@ -48,7 +51,7 @@ public class SubjectsController {
         return questions;
     }
 
-
+    @ApiOperation(value = "View a subject with a specific id", response = Subject.class)
     @GetMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public Subject getSubject(@PathVariable int id) throws NotFoundException {
@@ -61,7 +64,7 @@ public class SubjectsController {
         return subject;
     }
 
-    @ApiOperation(value = "Add a subject")
+    @ApiOperation(value = "Add a subject", response = Subject.class)
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public Subject createSubject(@RequestBody Subject subject,
@@ -71,7 +74,7 @@ public class SubjectsController {
         return subject1;
     }
 
-
+    @ApiOperation(value = "Update a subject", response = Subject.class)
     @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public Subject updateSubject(@PathVariable("id") int id,
@@ -90,6 +93,7 @@ public class SubjectsController {
         return subjectService.updateById(subject1);
     }
 
+    @ApiOperation(value = "Delete a subject")
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<String> deleteSubject(@PathVariable int id,

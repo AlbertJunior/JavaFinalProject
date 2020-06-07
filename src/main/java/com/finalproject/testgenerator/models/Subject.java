@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Subject {
 
     @ApiModelProperty(notes = "The id of a Subject - unique")
@@ -26,6 +28,7 @@ public class Subject {
     @Column
     private String name;
 
+    @ApiModelProperty(notes = "Thw questions for a subject")
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Question> questions;
@@ -33,9 +36,6 @@ public class Subject {
 
     public Subject(@NonNull String name) {
         this.name = name;
-    }
-
-    public Subject() {
     }
 
 

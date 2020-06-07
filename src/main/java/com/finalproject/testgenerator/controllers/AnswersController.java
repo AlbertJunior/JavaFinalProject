@@ -4,6 +4,7 @@ import com.finalproject.testgenerator.DTOs.AnswerDTO;
 import com.finalproject.testgenerator.exceptions.NotFoundException;
 import com.finalproject.testgenerator.models.Answer;
 import com.finalproject.testgenerator.services.AnswersService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -17,7 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * This class gets all the requests for answers and takes care of them
+ */
 @RestController
+@Api(value = "Answer Management System")
 @RequestMapping("api/v1/answers")
 public class AnswersController {
     private final AnswersService answersService;
@@ -45,7 +50,7 @@ public class AnswersController {
         return answerDTOS;
     }
 
-    @ApiOperation(value = "View an answer by id", response = Answer.class)
+    @ApiOperation(value = "View an answer by id", response = AnswerDTO.class)
     @GetMapping("/{id}")
     @ResponseStatus (value = HttpStatus.OK)
     public AnswerDTO getAnswer(@PathVariable int id) throws NotFoundException {
@@ -59,7 +64,7 @@ public class AnswersController {
         return answerDTO;
     }
 
-    @ApiOperation(value = "Add an answer")
+    @ApiOperation(value = "Add an answer", response = AnswerDTO.class)
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public AnswerDTO createAnswer(@RequestBody AnswerDTO answer,
@@ -70,7 +75,7 @@ public class AnswersController {
         return answer;
     }
 
-    @ApiOperation(value = "Update an answer")
+    @ApiOperation(value = "Update an answer", response = AnswerDTO.class)
     @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public AnswerDTO updateAnswer(@PathVariable("id") int id,
@@ -95,8 +100,7 @@ public class AnswersController {
 
 
 
-    @ApiOperation(value = "Delete an answer bu id",
-            response = String.class)
+    @ApiOperation(value = "Delete an answer by id")
 //    @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID answer"),
 //                            @ApiResponse(code = 404, message = "Answer not found"),
 //                            @ApiResponse(code = 200, message = "Answer deleted")})

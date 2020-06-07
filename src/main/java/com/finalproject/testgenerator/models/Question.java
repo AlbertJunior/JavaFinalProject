@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Question {
     @ApiModelProperty(notes = "The id of an Answer - unique")
     @Id
@@ -50,13 +52,12 @@ public class Question {
     public Question(String text) {
         this.text = text;
     }
+
     public Question(String text, int timeInSeconds, int difficulty, Subject subject) {
         this.text = text;
         this.difficulty = difficulty;
         this.timeInSeconds = timeInSeconds;
         this.subject = subject;
-    }
-    public Question() {
     }
 
 }
