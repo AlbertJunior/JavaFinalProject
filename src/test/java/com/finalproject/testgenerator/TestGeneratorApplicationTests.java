@@ -47,7 +47,7 @@ class TestGeneratorApplicationTests {
 	 */
 	@Test
 	void getTest() throws IOException {
-		HttpUriRequest request = new HttpGet( "http://localhost:8090/api/v1/tests?totalTime=10&subjectId=6");
+		HttpUriRequest request = new HttpGet( "https://tests-generator.herokuapp.com/api/v1/tests?totalTime=10&subjectId=6");
 		HttpResponse httpResponse =HttpClientBuilder.create().build().execute( request );
 		assertThat(httpResponse.getStatusLine().getStatusCode()).
 				isEqualTo(HttpStatus.SC_OK);
@@ -55,7 +55,7 @@ class TestGeneratorApplicationTests {
 
 	@Test
 	void getTestNotFoundException() throws IOException {
-		HttpUriRequest request = new HttpGet( "http://localhost:8090/api/v1/tests?totalTime=10&subjectId=5");
+		HttpUriRequest request = new HttpGet( "https://tests-generator.herokuapp.com/api/v1/tests?totalTime=10&subjectId=5");
 		HttpResponse httpResponse =HttpClientBuilder.create().build().execute( request );
 		assertThat(httpResponse.getStatusLine().getStatusCode()).
 				isEqualTo(HttpStatus.SC_NOT_FOUND);
@@ -80,7 +80,7 @@ class TestGeneratorApplicationTests {
 
 	@Test
 	void getSubjects() throws IOException {
-		HttpUriRequest request = new HttpGet( "http://localhost:8090/api/v1/subjects");
+		HttpUriRequest request = new HttpGet( "https://tests-generator.herokuapp.com/api/v1/subjects");
 		HttpResponse httpResponse =HttpClientBuilder.create().build().execute( request );
 		assertThat(
 				httpResponse.getStatusLine().getStatusCode()).
@@ -89,7 +89,7 @@ class TestGeneratorApplicationTests {
 
 	@Test
 	void getSubject() throws IOException {
-		HttpUriRequest request = new HttpGet( "http://localhost:8090/api/v1/subjects/4");
+		HttpUriRequest request = new HttpGet( "https://tests-generator.herokuapp.com/api/v1/subjects/4");
 		HttpResponse httpResponse =HttpClientBuilder.create().build().execute( request );
 		assertThat(
 				httpResponse.getStatusLine().getStatusCode()).

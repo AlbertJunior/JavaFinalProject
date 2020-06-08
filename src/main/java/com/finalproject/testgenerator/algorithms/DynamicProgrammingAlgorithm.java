@@ -14,8 +14,8 @@ import static sun.swing.MenuItemLayoutHelper.max;
  * This class is a functional one which creates a test from a list of question and a time limit
  */
 public class DynamicProgrammingAlgorithm implements Algorithm{
-    private int timeLimit = 10000;
-    private int maxNumberOfQuestions = 10000;
+    private int timeLimit = 100;
+    private int maxNumberOfQuestions = 100;
     private Logger logger = LoggerFactory.getLogger(DynamicProgrammingAlgorithm.class);
 
     /**
