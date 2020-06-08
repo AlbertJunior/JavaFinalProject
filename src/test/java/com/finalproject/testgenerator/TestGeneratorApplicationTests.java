@@ -52,6 +52,14 @@ class TestGeneratorApplicationTests {
 		assertThat(httpResponse.getStatusLine().getStatusCode()).
 				isEqualTo(HttpStatus.SC_OK);
 	}
+
+	@Test
+	void getTestNotFoundException() throws IOException {
+		HttpUriRequest request = new HttpGet( "http://localhost:8090/api/v1/tests?totalTime=10&subjectId=5");
+		HttpResponse httpResponse =HttpClientBuilder.create().build().execute( request );
+		assertThat(httpResponse.getStatusLine().getStatusCode()).
+				isEqualTo(HttpStatus.SC_NOT_FOUND);
+	}
 	@Test
 	void generateOptimumTest() throws NotFoundException {
 		com.finalproject.testgenerator.models.Test test1 = testsService.createTest(10, 6);

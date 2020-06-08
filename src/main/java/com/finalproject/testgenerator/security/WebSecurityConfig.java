@@ -17,19 +17,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 //https://www.javainuse.com/spring/boot-jwt
 
+/**
+ * This class has all configuration for security layer
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Autowired
     private UserDetailsService jwtUserDetailsService;
 
-    @Autowired
     private JwtRequestFilter jwtRequestFilter;
+
+    @Autowired
+    public WebSecurityConfig (JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                              UserDetailsService jwtUserDetailsService,
+                              JwtRequestFilter jwtRequestFilter){
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,6 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * This class sets the API that we can use without authentication
+     * @param httpSecurity
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()

@@ -31,7 +31,7 @@ public class DynamicProgrammingAlgorithm implements Algorithm{
         int[][] dp = new int[maxNumberOfQuestions][timeLimit];
         int totalTime = test.getTotalTime();
 
-        if (questions == null){
+        if (questions == null || questions.size()==0){
             logger.error("No question found");
             throw new NotFoundException("No questions was found");
         }

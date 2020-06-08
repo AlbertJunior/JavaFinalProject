@@ -13,6 +13,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+
+/**
+ * This class exposes a POST API /authenticate
+ */
 @RestController
 @RequestMapping("api/v1/authenticate")
 @CrossOrigin
@@ -29,6 +33,14 @@ public class JwtAuthenticationController {
     }
 
 
+    /**
+     * Gets username and password in the body
+     * - Using Spring Authentication Manager we authenticate the username and password.
+     * If the credentials are valid, a JWT token is created using the JWTTokenUtil and provided to the client.
+     * @param authenticationRequest
+     * @return
+     * @throws Exception
+     */
     @PostMapping("")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
