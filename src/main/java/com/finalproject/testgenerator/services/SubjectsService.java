@@ -37,7 +37,7 @@ public class SubjectsService {
     }
 
     public Subject createSubject(Subject subject) {
-        subject.setId((int) (repository.count() + 1));
+//        subject.setId((int) (repository.count() + 5));
         subject = repository.save(subject);
         logger.info("A subject was created in the repository");
         return subject;

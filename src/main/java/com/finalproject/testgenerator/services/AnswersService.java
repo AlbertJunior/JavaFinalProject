@@ -37,7 +37,7 @@ public class AnswersService {
     }
 
     public Answer createAnswer(Answer answer) {
-        answer.setId((int) (repository.count() + 1));
+//        answer.setId((int) (repository.count() + 1));
         answer = repository.save(answer);
         logger.info("An answer was created in the repository");
         return answer;
